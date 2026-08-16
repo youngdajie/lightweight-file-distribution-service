@@ -1,0 +1,15 @@
+{
+  "name": "杨大杰轻量级文件分发服务",
+  "version": "1.0.0",
+  "description": "轻量级 Node.js 文件分发与多媒体在线预览站",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "build": "node build.js",
+    "preview": "node server.js"
+  },
+  "dependencies": {
+    "express": "^5.1.0",
+    "mime-types": "^3.0.2"
+  }
+}

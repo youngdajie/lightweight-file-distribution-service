@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="zh-CN" data-mode="node">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0b1020">
+  <title>杨大杰轻量级文件分发服务</title>
+  <link rel="icon" type="image/svg+xml" href="/favicon.webp" />
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <div class="bg"></div>
+
+  <header class="topbar">
+    <div class="brand">
+      <div class="logo">🐼</div>
+      <div style="height: 42px; display: flex; flex-direction: column; justify-content: space-between; align-items: flex-start;">
+        <div class="brand-title">文件分发</div>
+        <div class="brand-subtitle">File Distribution</div>
+      </div>
+    </div>
+
+    <div class="search-wrap">
+      <span>⌕</span>
+      <input id="search" placeholder="搜索文件或文件夹…" autocomplete="off">
+      <kbd>Ctrl K</kbd>
+    </div>
+
+    <button id="themeBtn" class="icon-btn" title="切换主题">🚀</button>
+  </header>
+
+  <main class="container">
+    <section class="hero">
+      <div>
+        <div class="eyebrow">YOUR PRIVATE FILE SERVER</div>
+        <h1>随时随地</h1>
+        <p>文件分发 + 多媒体在线预览</p><br>
+        <p>@JIE</p>
+      </div>
+      <div class="hero-orb">🗂️</div>
+    </section>
+
+    <div class="toolbar">
+      <div id="breadcrumb" class="breadcrumb"></div>
+      <div id="count" class="count"></div>
+    </div>
+
+    <section id="searchPanel" class="search-panel hidden">
+      <div class="section-title">搜索结果</div>
+      <div id="searchResults" class="file-grid"></div>
+    </section>
+
+    <section id="content">
+      <div id="loading" class="loading">正在读取文件…</div>
+      <div id="fileGrid" class="file-grid"></div>
+      <div id="empty" class="empty hidden">
+        <div>⌂</div>
+        <p>这个文件夹是空的</p>
+      </div>
+    </section>
+  </main>
+
+  <div id="viewer" class="viewer hidden">
+    <div class="viewer-backdrop"></div>
+    <div class="viewer-card">
+      <button id="viewerClose" class="viewer-close">×</button>
+      <div id="viewerTitle" class="viewer-title"></div>
+      <div id="viewerBody" class="viewer-body"></div>
+      <div class="viewer-actions">
+        <a id="viewerDownload" class="btn" download>下载文件</a>
+        <a id="viewerOpen" class="btn secondary" target="_blank">新窗口打开</a>
+      </div>
+    </div>
+  </div>
+
+  <script src="/app.js?v=20260816-2"></script>
+</body>
+</html>

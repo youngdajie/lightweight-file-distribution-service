@@ -1,0 +1,5 @@
+{
+  "maxStaticFileSizeMB": null,
+  "fileBaseUrl": "",
+  "description": "build 不再人为限制单文件大小；会把 files/ 中所有文件复制到 dist/files/。具体部署平台仍可能有单文件、总容量或构建限制。"
+}
