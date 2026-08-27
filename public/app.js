@@ -139,7 +139,7 @@ function openViewer(item) {
   else if (item.type === "image") { const img=document.createElement("img"); img.src=url; img.alt=item.name; viewerBody.appendChild(img); }
   else if (item.type === "pdf") { const iframe=document.createElement("iframe"); iframe.src=url; viewerBody.appendChild(iframe); }
   else if (item.type === "text") { const pre=document.createElement("pre"); pre.textContent="正在读取…"; viewerBody.appendChild(pre); fetch(url).then(r=>r.text()).then(t=>pre.textContent=t.slice(0,500000)).catch(()=>pre.textContent="无法预览该文件"); }
-  else { const box=document.createElement("div"); box.style.padding="60px"; box.innerHTML=`<div style="font-size:60px;display: flex;justify-content: center;">📦</div><p>这是什么勾八东西，派蒙不知道哦</p>`; viewerBody.appendChild(box); }
+  else { const box=document.createElement("div"); box.style.padding="60px"; box.innerHTML=`<div style="font-size:60px;display: flex;justify-content: center;">📦</div><p>什么勾八东西，派蒙不知道哦</p>`; viewerBody.appendChild(box); }
   viewer.classList.remove("hidden");
 }
 function closeViewer(){ viewer.classList.add("hidden"); viewerBody.innerHTML=""; }
