@@ -57,7 +57,7 @@ function renderItems(items, target) {
   for (const item of items) {
     const card = document.createElement("article");
     card.className = "file-card " + (item.type === "directory" ? "directory" : "");
-    card.innerHTML = `<div class="file-type">${escapeHtml(item.extension || item.type)}</div><div class="file-icon">${icons[item.type] || icons.file}</div><div class="file-name" title="${escapeHtml(item.name)}">${escapeHtml(item.name)}</div><div class="file-meta">${item.type === "directory" ? "文件夹" : item.sizeText} · ${new Date(item.mtime).toLocaleDateString()}</div>`;
+    card.innerHTML = `<div class="file-type">${escapeHtml(item.extension || item.type)}</div><div class="file-icon-wrap"><div class="file-icon">${icons[item.type] || icons.file}</div></div><div class="file-name" title="${escapeHtml(item.name)}">${escapeHtml(item.name)}</div><div class="file-meta">${item.type === "directory" ? "文件夹" : item.sizeText} · ${new Date(item.mtime).toLocaleDateString()}</div>`;
     card.onclick = () => item.type === "directory" ? loadDirectory(item.path) : openViewer(item);
     target.appendChild(card);
   }
@@ -85,7 +85,9 @@ function localItems(dir) {
 }
 
 async function loadManifest() {
-  const res = await fetch("/file-manifest.json", { cache: "no-store" });
+  const configured = document.querySelector('meta[name="file-manifest-url"]')?.content;
+  const url = configured || "/file-manifest.json";
+  const res = await fetch(url, { cache: "no-store" });
   if (!res.ok) throw new Error("找不到 file-manifest.json");
   state.manifest = await res.json();
 }
@@ -137,7 +139,7 @@ function openViewer(item) {
   else if (item.type === "image") { const img=document.createElement("img"); img.src=url; img.alt=item.name; viewerBody.appendChild(img); }
   else if (item.type === "pdf") { const iframe=document.createElement("iframe"); iframe.src=url; viewerBody.appendChild(iframe); }
   else if (item.type === "text") { const pre=document.createElement("pre"); pre.textContent="正在读取…"; viewerBody.appendChild(pre); fetch(url).then(r=>r.text()).then(t=>pre.textContent=t.slice(0,500000)).catch(()=>pre.textContent="无法预览该文件"); }
-  else { const box=document.createElement("div"); box.style.padding="60px"; box.innerHTML=`<div style="font-size:60px">📦</div><p>该文件类型不支持网页预览</p>`; viewerBody.appendChild(box); }
+  else { const box=document.createElement("div"); box.style.padding="60px"; box.innerHTML=`<div style="font-size:60px;display: flex;justify-content: center;">📦</div><p>这是什么勾八东西，派蒙不知道哦</p>`; viewerBody.appendChild(box); }
   viewer.classList.remove("hidden");
 }
 function closeViewer(){ viewer.classList.add("hidden"); viewerBody.innerHTML=""; }

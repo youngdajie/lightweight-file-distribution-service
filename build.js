@@ -14,6 +14,7 @@ if (fs.existsSync(CONFIG_FILE)) {
 }
 
 const FILE_BASE_URL = String(process.env.FILE_BASE_URL ?? config.fileBaseUrl ?? "").replace(/\/$/, "");
+const MANIFEST_URL = String(process.env.MANIFEST_URL ?? "").replace(/\/$/, "");
 
 function cleanDir(dir) {
   fs.rmSync(dir, { recursive: true, force: true });
@@ -88,11 +89,17 @@ if (fs.existsSync(distIndex)) {
       return `<html${cleaned} data-mode="static">`;
     });
   }
+  if (MANIFEST_URL) {
+    const manifestUrl = `${MANIFEST_URL}/file-manifest.json`;
+    const meta = `<meta name="file-manifest-url" content="${manifestUrl.replace(/&/g, "&amp;").replace(/"/g, "&quot;")}">`;
+    html = html.replace(/<head>/i, `<head>${meta}`);
+  }
   fs.writeFileSync(distIndex, html, "utf8");
 }
 
+const COPY_FILES_TO_DIST = String(process.env.COPY_FILES_TO_DIST ?? "true") !== "false";
 const distFiles = path.join(DIST, "files");
-fs.mkdirSync(distFiles, { recursive: true });
+if (COPY_FILES_TO_DIST) fs.mkdirSync(distFiles, { recursive: true });
 
 const manifest = {
   version: 2,
@@ -104,14 +111,16 @@ const manifest = {
 if (fs.existsSync(FILES)) {
   manifest.items = walkFiles(FILES);
 
-  // 不再人为限制 25 MB：build 会把 files/ 中所有文件原样复制到 dist/files/
-  // 是否允许部署由具体平台的单文件/总大小限制决定。
-  for (const item of manifest.items) {
-    if (item.type === "directory") continue;
-    const target = path.join(distFiles, ...item.path.split("/"));
-    const source = path.join(FILES, ...item.path.split("/"));
-    fs.mkdirSync(path.dirname(target), { recursive: true });
-    fs.copyFileSync(source, target);
+  // 默认把 files/ 原样复制到 dist/files/。
+  // deploy 模式会设置 COPY_FILES_TO_DIST=false，避免大文件在本地重复复制，直接由 deploy.js 上传 files/。
+  if (COPY_FILES_TO_DIST) {
+    for (const item of manifest.items) {
+      if (item.type === "directory") continue;
+      const target = path.join(distFiles, ...item.path.split("/"));
+      const source = path.join(FILES, ...item.path.split("/"));
+      fs.mkdirSync(path.dirname(target), { recursive: true });
+      fs.copyFileSync(source, target);
+    }
   }
 }
 
@@ -126,7 +135,8 @@ const report = {
   copiedBytes: manifest.items.filter(x => x.type !== "directory").reduce((n, x) => n + x.size, 0),
   copiedSizeText: formatSize(manifest.items.filter(x => x.type !== "directory").reduce((n, x) => n + x.size, 0)),
   fileBaseUrl: FILE_BASE_URL,
-  note: "本版本不再人为限制单文件大小；部署平台自身可能存在单文件、总容量或构建超时限制。"
+  copyFilesToDist: COPY_FILES_TO_DIST,
+  note: "本程序不人为限制单文件大小；deploy 模式可直接将 files/ 全量同步到 COS。"
 };
 
 fs.writeFileSync(

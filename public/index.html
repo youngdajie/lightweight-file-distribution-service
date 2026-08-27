@@ -2,77 +2,100 @@
 <html lang="zh-CN" data-mode="node">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#0b1020">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="format-detection" content="telephone=no">
+  <meta name="theme-color" content="#090b12">
+  <meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex">
+  <meta name="googlebot" content="noindex, nofollow, noarchive, nosnippet, noimageindex">
+  <meta name="bingbot" content="noindex, nofollow, noarchive, nosnippet, noimageindex">
+  <meta name="referrer" content="no-referrer">
   <title>杨大杰轻量级文件分发服务</title>
-  <link rel="icon" type="image/svg+xml" href="/favicon.webp" />
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
   <link rel="stylesheet" href="/style.css">
 </head>
 <body>
-  <div class="bg"></div>
+  <div class="ambient" aria-hidden="true">
+    <i class="orb orb-a"></i><i class="orb orb-b"></i><i class="orb orb-c"></i>
+    <div class="grain"></div>
+  </div>
 
   <header class="topbar">
-    <div class="brand">
-      <div class="logo">🐼</div>
-      <div style="height: 42px; display: flex; flex-direction: column; justify-content: space-between; align-items: flex-start;">
-        <div class="brand-title">文件分发</div>
-        <div class="brand-subtitle">File Distribution</div>
+    <div class="nav-shell glass">
+      <div class="brand">
+        <div class="logo">🐼</div>
+        <div class="brand-copy">
+          <div class="brand-title">文件分发</div>
+          <div class="brand-subtitle">File Distribution</div>
+        </div>
       </div>
-    </div>
 
-    <div class="search-wrap">
-      <span>⌕</span>
-      <input id="search" placeholder="搜索文件或文件夹…" autocomplete="off">
-      <kbd>Ctrl K</kbd>
-    </div>
+      <div class="search-wrap">
+        <span class="search-symbol">⌕</span>
+        <input id="search" placeholder="搜索文件或文件夹…" autocomplete="off" spellcheck="false">
+        <kbd>⌘ K</kbd>
+      </div>
 
-    <button id="themeBtn" class="icon-btn" title="切换主题">🚀</button>
+      <button id="themeBtn" class="icon-btn" title="切换主题" aria-label="切换主题">☼</button>
+    </div>
   </header>
 
   <main class="container">
-    <section class="hero">
-      <div>
-        <div class="eyebrow">YOUR PRIVATE FILE SERVER</div>
+    <section class="hero glass">
+      <div class="hero-copy">
+        <div class="eyebrow"><span></span> YOUR PRIVATE FILE SERVER</div>
         <h1>随时随地</h1>
-        <p>文件分发 + 多媒体在线预览</p><br>
-        <p>@JIE</p>
+        <p>文件分发 + 多媒体在线预览</p>
+        <div class="signature">@JIE</div>
       </div>
-      <div class="hero-orb">🗂️</div>
+      <div class="hero-visual" aria-hidden="true">
+        <div class="glass-disc disc-back"></div>
+        <div class="glass-disc disc-front">🗂️</div>
+        <div class="spark spark-1"></div><div class="spark spark-2"></div><div class="spark spark-3"></div>
+      </div>
+      <div class="hero-shine"></div>
     </section>
 
-    <div class="toolbar">
-      <div id="breadcrumb" class="breadcrumb"></div>
-      <div id="count" class="count"></div>
-    </div>
-
-    <section id="searchPanel" class="search-panel hidden">
-      <div class="section-title">搜索结果</div>
-      <div id="searchResults" class="file-grid"></div>
-    </section>
-
-    <section id="content">
-      <div id="loading" class="loading">正在读取文件…</div>
-      <div id="fileGrid" class="file-grid"></div>
-      <div id="empty" class="empty hidden">
-        <div>⌂</div>
-        <p>这个文件夹是空的</p>
+    <section class="browser glass">
+      <div class="browser-head">
+        <div class="location">
+          <div class="location-icon">⌂</div>
+          <div class="location-copy">
+            <span class="location-label">当前位置</span>
+            <div id="breadcrumb" class="breadcrumb"></div>
+          </div>
+        </div>
+        <div id="count" class="count"></div>
       </div>
+
+      <section id="searchPanel" class="search-panel hidden">
+        <div class="section-title"><span>搜索结果</span><small>按名称与路径匹配</small></div>
+        <div id="searchResults" class="file-grid"></div>
+      </section>
+
+      <section id="content">
+        <div id="loading" class="loading"><span class="loader"></span><span>正在读取文件…</span></div>
+        <div id="fileGrid" class="file-grid"></div>
+        <div id="empty" class="empty hidden">
+          <div class="empty-icon">⌁</div>
+          <p>这个文件夹是空的</p>
+        </div>
+      </section>
     </section>
   </main>
 
   <div id="viewer" class="viewer hidden">
     <div class="viewer-backdrop"></div>
-    <div class="viewer-card">
-      <button id="viewerClose" class="viewer-close">×</button>
+    <div class="viewer-card glass">
+      <div class="viewer-bar"><span>预览</span><button id="viewerClose" class="viewer-close" aria-label="关闭">×</button></div>
       <div id="viewerTitle" class="viewer-title"></div>
       <div id="viewerBody" class="viewer-body"></div>
       <div class="viewer-actions">
         <a id="viewerDownload" class="btn" download>下载文件</a>
-        <a id="viewerOpen" class="btn secondary" target="_blank">新窗口打开</a>
+        <a id="viewerOpen" class="btn secondary" target="_blank" rel="noopener">新窗口打开</a>
       </div>
     </div>
   </div>
 
-  <script src="/app.js?v=20260816-2"></script>
+  <script src="/app.js?v=20260818-3"></script>
 </body>
 </html>

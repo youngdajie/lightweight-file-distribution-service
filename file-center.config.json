@@ -1,5 +1,10 @@
 {
-  "maxStaticFileSizeMB": null,
-  "fileBaseUrl": "",
-  "description": "build 不再人为限制单文件大小；会把 files/ 中所有文件复制到 dist/files/。具体部署平台仍可能有单文件、总容量或构建限制。"
+  "description": "Node.js 文件分发服务。pnpm run build 生成完整 dist 静态站点；pnpm run deploy 先执行原有 build，再将 dist/ 内全部文件全量同步到腾讯云 COS。",
+  "cos": {
+    "bucket": "",
+    "region": "ap-chengdu",
+    "prefix": "",
+    "deleteStale": true,
+    "concurrency": 4
+  }
 }
